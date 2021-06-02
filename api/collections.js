@@ -10,7 +10,6 @@ if (secret) {
 
 export default async (req, res) => {
 	try {
-		console.log(client)
 		let collections = []
 
 		if (!client) {
@@ -18,12 +17,13 @@ export default async (req, res) => {
 				.status(500)
 				.json({ error: new Error("Missing secret to connect to FaunaDB") })
 		}
-		console.log(secret)
 
 		await client
 			.paginate(query.Collections())
 			.map((ref) => query.Get(ref))
 			.each((page) => (collections = collections.concat(page)))
+
+		res.status(200).json(collections)
 	} catch (error) {
 		res.status(500).json({ error })
 	}

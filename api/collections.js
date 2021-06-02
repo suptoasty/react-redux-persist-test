@@ -10,6 +10,7 @@ if (secret) {
 
 export default async (req, res) => {
 	try {
+		console.log(client)
 		let collections = []
 
 		if (!client) {
@@ -17,6 +18,7 @@ export default async (req, res) => {
 				.status(500)
 				.json({ error: new Error("Missing secret to connect to FaunaDB") })
 		}
+		console.log(secret)
 
 		await client
 			.paginate(query.Collections())

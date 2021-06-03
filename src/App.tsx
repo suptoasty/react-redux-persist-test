@@ -1,59 +1,21 @@
-import React, { Component, useState } from "react"
-import logo from "./logo.svg"
+import React, { Component } from "react"
 import "./App.css"
-import { Counter } from "./features/counter/counter"
-import {Post, PostProps} from "@/components/Post"
-import { Grid } from "@material-ui/core"
 
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 
-type AppProps = {
-	posts: []
-}
+import Navbar from "@/components/Navbar"
+import routes from "@/routes"
 
-type AppState = {
-	posts: []
-}
-
-class App extends Component<AppProps, AppState> {
-	constructor(props: AppProps) {
-		super(props)
-	}
-
-	state: AppState = {
-		posts: []
-	}
-
-	componentDidMount() {
-		// fetch("localhost:3000/api/collections").then((result) => {
-		// 	console.log(result)
-		// })
-		fetch("https://dev.to/api/articles?username=nataliedeweerd").then(res => res.json()).then(result => {
-			this.setState((state) => ({
-				posts: result
-			}))
-
-			console.log(result)
-
-		})
-
-	}
-
+class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				<header className="App-header">
-					<img src={logo} className="App-logo" alt="logo" />
-					<p>Hello Vite + React!</p>
-					<Counter />
-					
-					<Grid container justify="space-evenly">
-						{this.state.posts && this.state.posts.map(post =>
-							<Grid item key={ post.id }>
-								<Post {...post}/>
-							</Grid>
-						)}
-					</Grid>
-				</header>
+				<Router>
+					<Navbar />
+					<Switch>
+						{routes && routes.map((route) => <Route {...route} />)}
+					</Switch>
+				</Router>
 			</div>
 		)
 	}

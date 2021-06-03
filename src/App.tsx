@@ -2,14 +2,40 @@ import React, { Component, useState } from "react"
 import logo from "./logo.svg"
 import "./App.css"
 import { Counter } from "./features/counter/counter"
+import {Post, PostProps} from "@/components/Post"
+import { Grid } from "@material-ui/core"
 
-class App extends Component {
-	// const [count, setCount] = useState(0)
+
+type AppProps = {
+	posts: []
+}
+
+type AppState = {
+	posts: []
+}
+
+class App extends Component<AppProps, AppState> {
+	constructor(props: AppProps) {
+		super(props)
+	}
+
+	state: AppState = {
+		posts: []
+	}
 
 	componentDidMount() {
 		// fetch("localhost:3000/api/collections").then((result) => {
 		// 	console.log(result)
 		// })
+		fetch("https://dev.to/api/articles?username=nataliedeweerd").then(res => res.json()).then(result => {
+			this.setState((state) => ({
+				posts: result
+			}))
+
+			console.log(result)
+
+		})
+
 	}
 
 	render() {
@@ -19,28 +45,14 @@ class App extends Component {
 					<img src={logo} className="App-logo" alt="logo" />
 					<p>Hello Vite + React!</p>
 					<Counter />
-					<p>
-						Edit <code>App.tsx</code> and save to test HMR updates.
-					</p>
-					<p>
-						<a
-							className="App-link"
-							href="https://reactjs.org"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							Learn React
-						</a>
-						{" | "}
-						<a
-							className="App-link"
-							href="https://vitejs.dev/guide/features.html"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							Vite Docs
-						</a>
-					</p>
+					
+					<Grid container justify="space-evenly">
+						{this.state.posts && this.state.posts.map(post =>
+							<Grid item key={ post.id }>
+								<Post {...post}/>
+							</Grid>
+						)}
+					</Grid>
 				</header>
 			</div>
 		)

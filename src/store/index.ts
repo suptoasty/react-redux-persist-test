@@ -6,6 +6,9 @@ import { persistStore, persistReducer } from "redux-persist"
 import storage from "redux-persist/lib/storage"
 import { RootReducer, RootState } from "./reducers"
 
+import { offline } from '@redux-offline/redux-offline'
+import offlineConfig from '@redux-offline/redux-offline/lib/defaults'
+
 import {
 	ThunkAction,
 	Action,

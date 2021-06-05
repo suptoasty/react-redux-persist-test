@@ -13,7 +13,7 @@ export default function Navbar() {
 				<List>
 					{routes &&
 						routes.map((route) => (
-							<ListItem>
+							<ListItem key={route.path}>
 								<Link key={route.path} to={route.path}>
 									{route.title}
 								</Link>

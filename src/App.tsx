@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import "./App.css"
+import "@/App.css"
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 
@@ -13,7 +13,8 @@ class App extends Component {
 				<Router>
 					<Navbar />
 					<Switch>
-						{routes && routes.map((route) => <Route {...route} />)}
+						{routes &&
+							routes.map((route) => <Route key={route.path} {...route} />)}
 					</Switch>
 				</Router>
 			</div>

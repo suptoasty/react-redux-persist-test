@@ -1,34 +1,48 @@
+import "jsdom-global/register"
+
 import React from "react"
-import { shallow } from "enzyme"
+import { mount } from "enzyme"
 
-import configureStore from "redux-mock-store"
+import { configureStore } from "@reduxjs/toolkit"
 
-// import { store, persistor } from "@/store/index"
 import { Provider } from "react-redux"
-import { PersistGate } from "redux-persist/integration/react"
 import { RootReducer } from "@/store/reducers"
 
 import { Counter } from "@/features/counter/counter"
-import { ThemeProvider } from "@material-ui/styles"
-import { CssBaseline } from "@material-ui/core"
-
-import theme from "@/theme"
-
-const mockStore = configureStore()
-const mockDispatchfn = jest.fn()
 
 describe("Counter Component", () => {
 	let wrapper: any
+	let counter: any
 
 	beforeEach(() => {
-		wrapper = shallow(
-			<Provider store={mockStore()}>
+		const store = configureStore({
+			reducer: RootReducer,
+		})
+		let jsx = (
+			<Provider store={store}>
 				<Counter />
 			</Provider>
-		).dive()
+		)
+
+		wrapper = mount(jsx)
+		counter = wrapper.find(Counter)
 	})
 
+	afterEach(() => {})
+
 	it("Counter Render", () => {
-		expect(wrapper.find(Counter)).toHaveLength(1)
+		expect(counter.exists()).toBeTruthy()
+	})
+
+	it("Can Increment", () => {
+		expect(counter.find("#counter").text()).toBe("Count: 0")
+		counter.find("#incrementButton").simulate("click")
+		expect(counter.find("#counter").text()).toBe("Count: 1")
+	})
+
+	it("Can Decrement", () => {
+		expect(counter.find("#counter").text()).toBe("Count: 0")
+		counter.find("#decrementButton").simulate("click")
+		expect(counter.find("#counter").text()).toBe("Count: -1")
 	})
 })

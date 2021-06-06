@@ -30,7 +30,7 @@ export const ExpenseView = () => {
 		return value < 0 ? "-" : "+"
 	}
 
-	const toUSD = (value: Number) => {
+	const toUSD = (value: any) => {
 		return sign(value) + "$" + Math.abs(value)
 	}
 

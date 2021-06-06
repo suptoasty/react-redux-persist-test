@@ -1,16 +1,68 @@
-import { Container } from "@material-ui/core"
-import React, { Component } from "react"
+import React, { useState } from "react"
 
-class Expense extends Component {
-	render() {
-		return (
-			<>
-				<Container>
-					<p>things</p>
-				</Container>
-			</>
-		)
+import { Container, List, Button, TextField } from "@material-ui/core"
+import Expense from "@/features/expense/expense"
+import {
+	selectExpense,
+	selectBalance,
+	addExpense,
+	removeExpense,
+	ExpenseItem,
+} from "@/features/expense/expenseSlice"
+import { useAppDispatch, useAppSelector } from "@/store/hooks"
+
+export const ExpenseView = () => {
+	const expenses = useAppSelector(selectExpense)
+	const balance = useAppSelector(selectBalance)
+	const dispatch = useAppDispatch()
+
+	const [expenseTitle, setExpenseTitle] = useState("")
+	const [expenseAmount, setExpenseAmount] = useState(0)
+
+	const addNewExpense = () => {
+		let newExpense = new ExpenseItem(expenseTitle, expenseAmount)
+
+		if (newExpense.cost != 0) dispatch(addExpense(newExpense))
+		// add invalid input warning here
 	}
+
+	const sign = (value: Number) => {
+		return value < 0 ? "-" : "+"
+	}
+
+	const toUSD = (value: Number) => {
+		return sign(value) + "$" + Math.abs(value)
+	}
+
+	return (
+		<>
+			Balance: {toUSD(balance)}
+			<Container>
+				<List>
+					{expenses &&
+						expenses.map((item: ExpenseItem) => (
+							<Expense key={item.id} {...item} toUSD={toUSD} />
+						))}
+					{expenses.length <= 0 && (
+						<p>
+							<br />
+							No Expenses Available
+							<br />
+						</p>
+					)}
+				</List>
+				Name
+				<TextField
+					onChange={(e) => setExpenseTitle(e.target.value)}
+				></TextField>
+				Expense/Income
+				<TextField
+					onChange={(e) => setExpenseAmount(Number(e.target.value))}
+				></TextField>
+				<Button onClick={() => addNewExpense()}>Add</Button>
+			</Container>
+		</>
+	)
 }
 
-export default Expense
+export default ExpenseView

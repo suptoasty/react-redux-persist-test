@@ -1,6 +1,13 @@
 import React, { useState } from "react"
 
-import { Container, List, Button, TextField } from "@material-ui/core"
+import {
+	Container,
+	List,
+	Button,
+	TextField,
+	Grid,
+	Card,
+} from "@material-ui/core"
 import Expense from "@/features/expense/expense"
 import {
 	selectExpense,
@@ -10,6 +17,8 @@ import {
 	ExpenseItem,
 } from "@/features/expense/expenseSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks"
+import { ListItemText } from "@material-ui/core"
+import { Divider } from "@material-ui/core"
 
 export const ExpenseView = () => {
 	const expenses = useAppSelector(selectExpense)
@@ -36,38 +45,50 @@ export const ExpenseView = () => {
 
 	return (
 		<>
-			Balance: {toUSD(balance)}
 			<Container>
-				<List dense disablePadding>
-					{expenses &&
-						expenses.map((item: ExpenseItem) => (
-							<Expense key={item.id} {...item} toUSD={toUSD} />
-						))}
-					{expenses.length <= 0 && (
-						<p>
-							<br />
-							No Expenses Available
-							<br />
-						</p>
-					)}
-				</List>
-			</Container>
-			<Container>
-				Name
-				<TextField
-					onChange={(e) => setExpenseTitle(e.target.value)}
-				></TextField>
-				Expense/Income
-				<TextField
-					onChange={(e) => setExpenseAmount(Number(e.target.value))}
-				></TextField>
-				<Button
-					variant="outlined"
-					color="primary"
-					onClick={() => addNewExpense()}
+				<h1>Balance: {toUSD(balance)}</h1>
+				<Grid
+					container
+					item
+					direction="row"
+					justify="center"
+					alignItems="center"
+					style={{ paddingTop: 10 }}
 				>
-					Add
-				</Button>
+					<TextField
+						label="Expense Title"
+						variant="outlined"
+						onChange={(e) => setExpenseTitle(e.target.value)}
+						style={{ marginRight: 10 }}
+					></TextField>
+					<TextField
+						label="Exense/Income Amount"
+						variant="outlined"
+						onChange={(e) => setExpenseAmount(Number(e.target.value))}
+						style={{ marginRight: 10 }}
+					></TextField>
+					<Button
+						variant="outlined"
+						color="primary"
+						onClick={() => addNewExpense()}
+						size="large"
+					>
+						Add
+					</Button>
+				</Grid>
+				<h3>Itemized List:</h3>
+				<Divider />
+				<Card raised style={{ marginTop: 10 }}>
+					<List dense disablePadding>
+						{expenses &&
+							expenses.map((item: ExpenseItem) => (
+								<Expense key={item.id} {...item} toUSD={toUSD} />
+							))}
+						{expenses.length <= 0 && (
+							<ListItemText>No Expenses Available</ListItemText>
+						)}
+					</List>
+				</Card>
 			</Container>
 		</>
 	)

@@ -26,7 +26,10 @@ export const Expense = (props: any) => {
 
 	return (
 		<>
-			<ListItemText>
+			<ListItemText
+				inset
+				style={{ backgroundColor: cost < 0 ? "red" : "green" }}
+			>
 				{title + " | " + toUSD(cost)}
 
 				<IconButton onClick={() => dispatch(removeExpense(id))}>

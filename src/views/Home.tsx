@@ -8,8 +8,8 @@ export default function Home() {
 		<>
 			<header className="App-header">
 				<img src={logo} className="App-logo" alt="logo" />
-				<p>Hello Vite + React!</p>
-				<Counter />
+				<p>Hello and welcome to my react+redux test!</p>
+				<p>There is a simple expense tracker on the Expense page.</p>
 			</header>
 		</>
 	)

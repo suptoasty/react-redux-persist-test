@@ -38,7 +38,7 @@ export const ExpenseView = () => {
 		<>
 			Balance: {toUSD(balance)}
 			<Container>
-				<List>
+				<List dense disablePadding>
 					{expenses &&
 						expenses.map((item: ExpenseItem) => (
 							<Expense key={item.id} {...item} toUSD={toUSD} />
@@ -51,6 +51,8 @@ export const ExpenseView = () => {
 						</p>
 					)}
 				</List>
+			</Container>
+			<Container>
 				Name
 				<TextField
 					onChange={(e) => setExpenseTitle(e.target.value)}
@@ -59,7 +61,13 @@ export const ExpenseView = () => {
 				<TextField
 					onChange={(e) => setExpenseAmount(Number(e.target.value))}
 				></TextField>
-				<Button onClick={() => addNewExpense()}>Add</Button>
+				<Button
+					variant="outlined"
+					color="primary"
+					onClick={() => addNewExpense()}
+				>
+					Add
+				</Button>
 			</Container>
 		</>
 	)

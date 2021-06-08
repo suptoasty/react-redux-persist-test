@@ -7,6 +7,7 @@ import {
 	Icon,
 	makeStyles,
 	TextField,
+	ListItemText,
 } from "@material-ui/core"
 import theme from "@/theme"
 
@@ -25,13 +26,13 @@ export const Expense = (props: any) => {
 
 	return (
 		<>
-			<ListItem>
-				<TextField type="text" variant="outlined" defaultValue={title} />
-				{toUSD(cost)}
+			<ListItemText>
+				{title + " | " + toUSD(cost)}
+
 				<IconButton onClick={() => dispatch(removeExpense(id))}>
 					<Icon>delete</Icon>
 				</IconButton>
-			</ListItem>
+			</ListItemText>
 		</>
 	)
 }

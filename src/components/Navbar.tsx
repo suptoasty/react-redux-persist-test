@@ -1,25 +1,28 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 
 // Routes
-import { List, ListItem, AppBar, Toolbar } from "@material-ui/core"
+import { List, ListItem, AppBar, Toolbar, Tab, Button } from "@material-ui/core"
 
 import routes from "@/routes"
 
 export default function Navbar() {
+	let history = useHistory()
+
 	return (
 		<AppBar position="sticky">
 			<Toolbar>
-				<List>
-					{routes &&
-						routes.map((route) => (
-							<ListItem key={route.path}>
-								<Link key={route.path} to={route.path}>
-									{route.title}
-								</Link>
-							</ListItem>
-						))}
-				</List>
+				{routes &&
+					routes.map((route) => (
+						<Button
+							style={{ color: "white" }}
+							key={route.path}
+							variant="text"
+							onClick={() => history.push(route.path)}
+						>
+							{route.title}
+						</Button>
+					))}
 			</Toolbar>
 		</AppBar>
 	)
